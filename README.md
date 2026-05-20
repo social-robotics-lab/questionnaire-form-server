@@ -33,8 +33,8 @@ uvicorn app.main:app --reload --host=0.0.0.0 --port=8000
 
 記録されたデータは，サーバーを起動したPCのカレントディレクトリに `questionnaires_result.csv` という名前で保存されます．
 
-！参加者IDが `0` の行はテストデータです．  
-分析時には削除してください．
+> [!CAUTION]
+> 参加者IDが `0` の行はテストデータです．分析時には削除してください．
 
 ## License
 
