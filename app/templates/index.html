@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参加者情報入力</title>
+</head>
+<body>
+    <h2>参加者情報を入力してください</h2>
+    <form action="/survey" method="get">
+        <p>デバッグ時は0を指定</p>
+        <label for="participant_id">参加者ID：</label>
+        <input type="number" id="participant_id" name="participant_id" min="0" max="24" value="0">
+        <!-- ↑ maxの値は実際の参加者数に応じて調整してください -->
+        <br><br>
+        <label for="condition_id">条件：</label>
+        <input type="number" id="condition_id" name="condition_id" min="1" max="2" value="1">
+        <!-- ↑ maxの値は実際の条件数に応じて調整してください -->
+        <br><br>
+        <button type="submit">次へ</button>
+    </form>
+</body>
+</html>

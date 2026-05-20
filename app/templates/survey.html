@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事後アンケート</title>
+    <style>
+        @font-face {
+            font-family: Noto_Sans_JP;
+            src: url('/static/webfonts/Noto_Sans_JP/NotoSansJP-VariableFont_wght.ttf') format("truetype");
+        }
+        body {
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff;
+            font-family: 'Noto_Sans_JP';
+            font-weight: 400;
+            color: rgb(50, 50, 50);
+        }
+
+        .AffectiveSlider {
+            width: 100%;
+            max-width: 1800px;
+            margin: 2em auto 0;
+            text-align: center;
+        }
+        .arousal, .pleasure {
+            display: grid;
+            grid-template-columns: clamp(90px, 7vw, 135px) minmax(0, 1fr) clamp(90px, 7vw, 135px);
+            grid-template-rows: auto auto;
+            column-gap: clamp(20px, 2vw, 36px);
+            row-gap: clamp(18px, 2vw, 34px);
+            align-items: center;
+            width: 92%;
+            margin: 0 auto;
+        }
+        .as-item:first-child {
+            margin-bottom: clamp(40px, 6vw, 95px);
+        }
+        /* .arousal {
+            margin-bottom: clamp(40px, 6vw, 95px);
+        } */
+        .arousal_svg, .pleasure_svg {
+            width: clamp(90px, 7vw, 135px);
+            margin: 0;
+            grid-row: 1 / 3;
+            align-self: center;
+            justify-self: center;
+        }
+        .intensity_cue_svg {
+            width: 100%;
+            position: static;
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            align-self: start;
+        }
+        input[type=range] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            align-self: center;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            border: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #505050;
+            margin-top: -8px;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            background: #505050;
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: 0px 0px 12px #212121;
+        }
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #ccc;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .scale-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            background-color: #f5f5f5;
+            padding: 2vw;
+            border-radius: 1vw;
+        }
+        .scale-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2vw;
+            width: 40vw;
+            text-align: center;
+        }
+        #grid-godspeed {
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .scale-grid input {
+            margin-top: 5px;
+            transform: scale(1.5);
+        }
+        .scale-label {
+            width: 20vw;
+            text-align: center;
+            font-size: 2.4vw;
+        }
+        .submit-button {
+            margin: 2em 0;
+        }
+
+        p, h4 {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <form action="/submit" method="post">
+        <!-- 参加者情報を保持 -->
+        <input type="hidden" id="participant_id" name="participant_id">
+        <input type="hidden" id="condition_id" name="condition_id">
+
+        <!-- Affective Slider (https://github.com/albertobeta/AffectiveSlider/blob/master/code_implementations/html5/AS.htm) -->
+        <h2>アンケート①</h2>
+        <p>以下の2つのスライダーを用いて、あなた自身の現在の感情を評価してください。深く考えすぎず、現在のあなたの感情に近い位置へ、それぞれのスライダーを動かしてください。</p>
+        <div class="AffectiveSlider" id="affective-slider"></div>
+        <!-- <div class="AffectiveSlider">
+            <div class="arousal">
+                <object class="arousal_svg" type="image/svg+xml" data="/static/affective_slider/AS_sleepy.svg"></object>
+                <input type="range" name="AS-arousal" id="AS-arousal" value="0.5" min="0" max="1" step="0.01" />
+                <object class="arousal_svg" type="image/svg+xml" data="/static/affective_slider/AS_wideawake.svg"></object>
+                <object class="intensity_cue_svg" type="image/svg+xml" data="/static/affective_slider/AS_intensity_cue.svg"></object>
+            </div>
+            <div class="pleasure">
+                <object class="pleasure_svg" type="image/svg+xml" data="/static/affective_slider/AS_unhappy.svg"></object>
+                <input type="range" name="AS-pleasure" id="AS-pleasure" value="0.5" min="0" max="1" step="0.01" />
+                <object class="pleasure_svg" type="image/svg+xml" data="/static/affective_slider/AS_happy.svg"></object>
+                <object class="intensity_cue_svg" type="image/svg+xml" data="/static/affective_slider/AS_intensity_cue.svg"></object>
+            </div>
+        </div> -->
+
+        <!-- Godspeed Questionnaire -->
+        <h2>アンケート②</h2>
+        <p>これから、ロボットに関するいくつかの形容詞の対を提示します。各対について、ロボットがどの程度その特性を持っていると感じるかを評価してください。評価は、左右の形容詞のうちどちらに近いかを7段階で選択してください。</p>
+        <div id="godspeed-container"></div>
+
+        <!-- The Personal Feelings Questionnaire-2 (PFQ-2)：「罪悪感 (Guilt)」のみ使用 -->
+        <h2>アンケート③</h2>
+        <p>以下に、さまざまな感情を表す項目が列挙されています。各項目について、ロボットとの触れ合いを通じてあなたがどう感じたかを評価してください。評価は、「全く感じない」から「とても感じる」までの5段階で行ってください。</p>
+        <div id="pfq2-container"></div>
+
+        <div class="submit-button">
+            <button type="submit">送信</button>
+        </div>
+    </form>
+
+    <script>
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        window.onload = function () {
+            const params = new URLSearchParams(window.location.search);
+            document.getElementById("participant_id").value = params.get("participant_id") || "";
+            document.getElementById("condition_id").value = params.get("condition_id") || "";
+
+            // Affective Slider
+            const affectiveSliderData = [
+                {
+                    className: "arousal",
+                    html: `
+                        <div class="as-item arousal">
+                            <object class="arousal_svg" type="image/svg+xml" data="/static/affective_slider/AS_sleepy.svg"></object>
+                            <input type="range" name="AS-arousal" id="AS-arousal" value="0.5" min="0" max="1" step="0.01" />
+                            <object class="arousal_svg" type="image/svg+xml" data="/static/affective_slider/AS_wideawake.svg"></object>
+                            <object class="intensity_cue_svg" type="image/svg+xml" data="/static/affective_slider/AS_intensity_cue.svg"></object>
+                        </div>
+                    `
+                },
+                {
+                    className: "pleasure",
+                    html: `
+                        <div class="as-item pleasure">
+                            <object class="pleasure_svg" type="image/svg+xml" data="/static/affective_slider/AS_unhappy.svg"></object>
+                            <input type="range" name="AS-pleasure" id="AS-pleasure" value="0.5" min="0" max="1" step="0.01" />
+                            <object class="pleasure_svg" type="image/svg+xml" data="/static/affective_slider/AS_happy.svg"></object>
+                            <object class="intensity_cue_svg" type="image/svg+xml" data="/static/affective_slider/AS_intensity_cue.svg"></object>
+                        </div>
+                    `
+                }
+            ];
+
+            document.getElementById("affective-slider").innerHTML =
+                shuffleArray(affectiveSliderData).map(item => item.html).join("");
+
+
+            // Godspeed Questionnaire
+            const godspeedData = {
+                "「擬人観」について、ロボットの印象として近いものを選んでください。": [
+                    { label: "偽物のような - 自然な", name: "godspeed_anthropo_natural" },
+                    { label: "機械的 - 人間的", name: "godspeed_anthropo_humanlike" },
+                    { label: "意識を持たない - 意識を持っている", name: "godspeed_anthropo_conscious" },
+                    { label: "人工的 - 生物的", name: "godspeed_anthropo_lifelike" },
+                    { label: "ぎこちない動き - 洗練された動き", name: "godspeed_anthropo_elegantly" }
+                ],
+                "「有生性」について、ロボットの印象として近いものを選んでください。": [
+                    { label: "死んでいる - 生きている", name: "godspeed_animacy_alive" },
+                    { label: "活気のない - 生き生きとした", name: "godspeed_animacy_lively" },
+                    { label: "機械的な - 有機的な", name: "godspeed_animacy_organic" },
+                    { label: "人工的な - 生物的な", name: "godspeed_animacy_lifelike" },
+                    { label: "不活発な - 対話的な", name: "godspeed_animacy_interactive" },
+                    { label: "無関心な - 反応のある", name: "godspeed_animacy_responsive" }
+                ],
+                "「好感度」について、ロボットの印象として近いものを選んでください。": [
+                    { label: "嫌い - 好き", name: "godspeed_likability_like" },
+                    { label: "親しみにくい - 親しみやすい", name: "godspeed_likability_friendly" },
+                    { label: "不親切な - 親切な", name: "godspeed_likability_kind" },
+                    { label: "不愉快な - 愉快な", name: "godspeed_likability_pleasant" },
+                    { label: "ひどい - 良い", name: "godspeed_likability_nice" },
+                ],
+                "「知性の有無」について、ロボットの印象として近いものを選んでください。": [
+                    { label: "無能な - 有能な", name: "godspeed_intelligence_competent" },
+                    { label: "無知な - 物知りな", name: "godspeed_intelligence_knowledgeable" },
+                    { label: "無責任な - 責任のある", name: "godspeed_intelligence_responsible" },
+                    { label: "知的でない - 知的な", name: "godspeed_intelligence_intelligent" },
+                    { label: "愚かな - 賢明な", name: "godspeed_intelligence_sensible" }
+                ],
+                "「安心感の有無」について、あなたの心の状態として近いものを選んでください。": [
+                    { label: "不安な - 落ち着いた", name: "godspeed_safety_relaxed" },
+                    { label: "冷静な - 動揺している", name: "godspeed_safety_calm" },
+                    { label: "平穏な - 驚いた", name: "godspeed_safety_surprised" }
+                ]
+            };
+
+            const shuffledConcepts = shuffleArray(Object.keys(godspeedData));
+            const godspeedContainer = document.getElementById("godspeed-container");
+            shuffledConcepts.forEach(concept => {
+                const shuffledQuestions = shuffleArray(godspeedData[concept]);
+                let sectionHTML = `<h4>${concept}</h4>`;
+                shuffledQuestions.forEach(q => {
+                    sectionHTML += `
+                        <div class="question-container">
+                            <div class="scale-container">
+                                <div class="scale-label">${q.label.split(" - ")[0]}</div>
+                                <div class="scale-grid" id="grid-godspeed">
+                                    <label><input type="radio" name="${q.name}" value="1" required></label>
+                                    <label><input type="radio" name="${q.name}" value="2"></label>
+                                    <label><input type="radio" name="${q.name}" value="3"></label>
+                                    <label><input type="radio" name="${q.name}" value="4"></label>
+                                    <label><input type="radio" name="${q.name}" value="5"></label>
+                                    <label><input type="radio" name="${q.name}" value="6"></label>
+                                    <label><input type="radio" name="${q.name}" value="7"></label>
+                                </div>
+                                <div class="scale-label">${q.label.split(" - ")[1]}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                godspeedContainer.innerHTML += sectionHTML;
+            });
+
+
+            // The Personal Feelings Questionnaire-2 (PFQ-2)：「罪悪感 (Guilt)」のみ使用
+            const pfq2Questions = [
+                { label: "軽い罪悪感を覚える。", name: "pfq2_mild_guilt" },
+                { label: "誰かを傷つけたり害を与えたりすることを心配する。", name: "pfq2_worry" },
+                { label: "強い罪悪感を感じる。", name: "pfq2_intense_guilt" },
+                { label: "後悔の気持ちがある。", name: "pfq2_regret" },
+                { label: "自分の行動について批判されるべきだと感じる。", name: "pfq2_criticism" },
+                { label: "深い後悔（良心の呵責）を感じる。", name: "pfq2_remorse" }
+            ];
+
+            shuffleArray(pfq2Questions);
+            const pfq2Container = document.getElementById("pfq2-container");
+            pfq2Questions.forEach(q => {
+                pfq2Container.innerHTML += `
+                    <h4>${q.label}</h4>
+                    <div class="question-container">
+                        <div class="scale-container">
+                            <div class="scale-label">全く感じない</div>
+                            <div class="scale-grid">
+                                <label><input type="radio" name="${q.name}" value="0" required></label>
+                                <label><input type="radio" name="${q.name}" value="1"></label>
+                                <label><input type="radio" name="${q.name}" value="2"></label>
+                                <label><input type="radio" name="${q.name}" value="3"></label>
+                                <label><input type="radio" name="${q.name}" value="4"></label>
+                            </div>
+                            <div class="scale-label">とても感じる</div>
+                        </div>
+                    </div>
+                `;
+            });
+        };
+    </script>
+</body>
+</html>

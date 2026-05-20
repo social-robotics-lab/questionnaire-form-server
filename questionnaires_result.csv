@@ -1,0 +1,6 @@
+participant_id,condition_id,AS-arousal,AS-pleasure,godspeed_anthropo_natural,godspeed_anthropo_humanlike,godspeed_anthropo_conscious,godspeed_anthropo_lifelike,godspeed_anthropo_elegantly,godspeed_animacy_alive,godspeed_animacy_lively,godspeed_animacy_organic,godspeed_animacy_lifelike,godspeed_animacy_interactive,godspeed_animacy_responsive,godspeed_likability_like,godspeed_likability_friendly,godspeed_likability_kind,godspeed_likability_pleasant,godspeed_likability_nice,godspeed_intelligence_competent,godspeed_intelligence_knowledgeable,godspeed_intelligence_responsible,godspeed_intelligence_intelligent,godspeed_intelligence_sensible,godspeed_safety_relaxed,godspeed_safety_calm,godspeed_safety_surprised,pfq2_mild_guilt,pfq2_worry,pfq2_intense_guilt,pfq2_regret,pfq2_criticism,pfq2_remorse,timestamp
+,,0.19,0.76,6,4,3,4,3,4,5,3,3,6,2,5,6,3,4,5,3,5,4,5,4,4,5,5,2,1,3,1,3,2,2026-05-20T14:39:10.417479
+,,0.19,0.76,6,4,3,4,3,4,5,3,3,6,2,5,6,3,4,5,3,5,4,5,4,4,5,5,2,1,3,1,3,2,2026-05-20T14:40:31.716247
+,,0.19,0.76,6,4,3,4,3,4,5,3,3,6,2,5,6,3,4,5,3,5,4,5,4,4,5,5,2,1,3,1,3,2,2026-05-20T14:41:14.904720
+,,0.19,0.76,6,4,3,4,3,4,5,3,3,6,2,5,6,3,4,5,3,5,4,5,4,4,5,5,2,1,3,1,3,2,2026-05-20T14:41:21.489900
+2,1,0.23,0.68,4,4,4,4,4,4,3,4,5,4,3,4,4,4,4,4,5,4,5,4,4,4,3,3,2,2,2,2,2,2,2026-05-20T14:48:55.304972
